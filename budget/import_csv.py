@@ -43,7 +43,7 @@ def build_records(csv_lines):
                 record["source_data"]["description"].replace("Withdrawal ", ""),
                 record["source_data"]["memo"].split("%%")[0]])
         elif record["source_data"]["description"] == "Transaction COMMENT":
-            break
+            continue
         elif "Deposit" in record["source_data"]["description"]:
             record["bookkeeping_type"] = "credit"
 
@@ -76,11 +76,17 @@ def get_address(record):
         print("No address found")
         return None
 def title_caps(string):
-	return ' '.join(
-		[word.capitalize() for word in string.split(' ')])
+    # We have to make sure we are actually working with a string.
+    if string is None:
+        return None
+    return ' '.join(
+        [word.capitalize() for word in string.split(' ')])
 
-def guess_formatted_address(address):
-    initial_guess = title_caps(address)
+def guess_formatted(string):
+    # We have to make sure we are actually working with a string.
+    if string is None:
+        return None
+    initial_guess = title_caps(string)
     guess_words = []
     for word in initial_guess.split(' '):
         if word in suggestions:
@@ -91,23 +97,42 @@ def guess_formatted_address(address):
 
     return guess
 
-def check_guess(guess):
+def check_guess(guess, guess_type="Address"):
+    # We have to make sure we are actually working with a string.
+    if guess is None:
+        return None
     # Asking the user if our guess was right.
-    print("Address: {}".format(guess))
+    print("{}: {}".format(guess_type.capitalize(), guess))
     # is_correct = query_yes_no("Is this address correct? ")
-    corrected =  input("Enter the properly formated address below.\nDon't enter anything if it's correct: ")
+    corrected =  input(("Enter the properly formated {} below.\n"
+        "Don't enter anything if it's correct: ").format(guess_type.lower()))
     if corrected == '':
         corrected = guess
 
-    for (original_word, corrected_word) in zip(guess.split(' '), corrected.split(' ')):
-    	if original_word != corrected_word and original_word not in suggestions:
-    		suggestions[original_word] = corrected_word
+    # Now for any word we guessed wrong, we want to add the guess and corrected
+    # word to the suggestions dictionary.
+    # REVIEW: This is a really basic way to check, and assumes for the most part
+    # that the user isn't going to make many changes and the final string will be
+    # almost word for word what the initial guess was. If the user adds any words
+    # inbetween the original words the order for checking will be screwed up fast.
+
+    if similar(guess, corrected[:len(guess)]) > .9:
+        # Added the if similar clause to so we only check this if the user has
+        # only changed simple things like capitalization, etc.
+        for (original_word, corrected_word) in zip(
+            guess.split(' '),
+            corrected[:len(guess)].split(' ')):
+            # We only want to check for the length of corrected...
+            if original_word != corrected_word and original_word not in suggestions:
+                suggestions[original_word] = corrected_word
     return corrected
 
 def find_counterparty(record, compare_string_length=16):
     compare_string = record["source_data"]["name_address_string"][:compare_string_length]
     final_address = None
     final_counterparty = None
+
+    # Looping over counterparties to compare by strings
     for counterparty in counterparties:
         similarity = similar(compare_string, counterparty["compare_string"])
 
@@ -120,23 +145,68 @@ def find_counterparty(record, compare_string_length=16):
             is_match = True if query_yes_no("Is this right? ") == "yes" else False
 
             if is_match:
-                address_guess = guess_formatted_address(get_address(record))
-
+                address_guess = guess_formatted(get_address(record))
+                final_counterparty = counterparty["name"]
                 for address in counterparty["addresses"]:
                     similarity = similar(address_guess, address[:len(address_guess)])
                     if similarity > .5:
-                        print("The address is {}.".format(get_address(record)))
-                        is_correct_address = True if query_yes_no("Is this {}? ") == "yes" else False
+                        print("The address from the record is {}.".format(get_address(record)))
+                        is_correct_address = True if query_yes_no("Is this {}}? ".format(address)) == "yes" else False
                         if is_correct_address:
                             final_address = address
                             break
                 if final_address is None:
+                    print("Address from the record: {}".format(address_guess))
                     print("Couldn't seem to find this address in the list...")
-                    final_address = check_guess(address_guess)
+                    # Let's present the user with the options and ask them to pick an address.
+                    choices = [address for address in counterparty["addresses"]] + [address_guess]
+                    final_address = query_select(
+                        "Which of the following addresses would you like to use?",
+                        choices,
+                        default=choices[0],
+                        multi=False)
+                    if final_address == address_guess:
+                        final_address = check_guess(address_guess)
+                    try:
+                        category = counterparty["category"]["name"]
+                    except:
+                        category = input("There was an error getting the category.\n"
+                            "What's the category for this transaction? ")
                 break
-    return
 
-    # Looping over counterparties to compare by strings
+    if final_counterparty is None:
+        # Ok, this means we haven't seen this one before. We need to try to guess the
+        # counterparty from the source data and ask the user for final
+        # confirmation.
+        counterparty_guess = guess_formatted(get_counterparty(record))
+        if counterparty_guess is None:
+            print("Name_address_string: {}".format(record["source_data"]["name_address_string"]))
+            final_counterparty = input("Who's the counterpart for this transaction? ")
+            counterparty_guess = ""
+        else:
+            final_counterparty = check_guess(counterparty_guess, guess_type="Counterparty")
+        address_guess = guess_formatted(get_address(record))
+        final_address = check_guess(address_guess)
+        if final_address is None:
+            print("Couldn't determine the address from the record.\n"
+                "Name_address_string: {}".format(record["source_data"]["name_address_string"]))
+            final_address = input("    >>> What's the address for this transaction? ")
+        category = input("What's the category for this transaction? ")
+        # Now let's add this counterparty to the growing list.
+        counterparty_record = {
+            "name": final_counterparty,
+            "category": {"name": category},
+            "compare_string": compare_string,
+            "addresses": [final_address]
+        }
+        counterparties.append(counterparty_record)
+    return {
+        "name": final_counterparty,
+        "address": final_address,
+        "category": {"name": category}
+        }
+
+
 counterparties = [
     {
         "name": "TJ Maxx",
@@ -178,7 +248,7 @@ recurring = [
 ]
 
 suggestions = {
-	"Lbj": "LBJ",
-	"Fwy": "FWY",
-	"Branc": "Branch"
+    "Lbj": "LBJ",
+    "Fwy": "FWY",
+    "Branc": "Branch"
 }
