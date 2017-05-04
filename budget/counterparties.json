@@ -1,0 +1,34 @@
+[
+    {
+        "addresses": [
+            "7735 N MacArthur Blvd, Irving, TX 75063"
+        ],
+        "category": {
+            "folder": "personal",
+            "name": "clothes"
+        },
+        "compare_string": "TJMAXX #0 7735 N",
+        "name": "TJ Maxx"
+    },
+    {
+        "addresses": [
+            "1600 LBJ FWY Farmers Branch, TX 75234"
+        ],
+        "category": {
+            "folder": "transportation",
+            "name": "gas"
+        },
+        "compare_string": "QT 999 08009995 ",
+        "name": "QuikTrip"
+    },
+    {
+        "addresses": [
+            "AES Credit P.O. Box 61047 Harrisburg, PA 17106-1047"
+        ],
+        "category": {
+            "name": "bills"
+        },
+        "compare_string": "AES TYPE: STDNT ",
+        "name": "AES"
+    }
+]

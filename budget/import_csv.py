@@ -1,7 +1,10 @@
 import re
+import csv
 
 from difflib import SequenceMatcher
 from cliutils import query_yes_no
+
+
 
 def build_records(csv_lines):
     """
@@ -50,7 +53,7 @@ def build_records(csv_lines):
         record["date"] = record["source_data"]["date"]
         records.append(record)
 
-        return records
+    return records
 
 def similar(a, b):
         return SequenceMatcher(None, a.upper(), b.upper()).ratio()
@@ -128,6 +131,12 @@ def check_guess(guess, guess_type="Address"):
     return corrected
 
 def find_counterparty(record, compare_string_length=16):
+    # We want to make sure to reload the list of counterparties each time we run
+    # this function to make sure we're using the most updated list of counterparties.
+    # REVIEW: If we change this to an object, we should instead load once,
+    # save it as an instance-wide variable, then save at the end of processing
+    # the entire list of records to save on system calls.
+    counterparties = load_counterparties()
     compare_string = record["source_data"]["name_address_string"][:compare_string_length]
     final_address = None
     final_counterparty = None
@@ -145,13 +154,14 @@ def find_counterparty(record, compare_string_length=16):
             is_match = True if query_yes_no("Is this right? ") == "yes" else False
 
             if is_match:
+                category = counterparty["category"]
                 address_guess = guess_formatted(get_address(record))
                 final_counterparty = counterparty["name"]
                 for address in counterparty["addresses"]:
                     similarity = similar(address_guess, address[:len(address_guess)])
                     if similarity > .5:
                         print("The address from the record is {}.".format(get_address(record)))
-                        is_correct_address = True if query_yes_no("Is this {}}? ".format(address)) == "yes" else False
+                        is_correct_address = True if query_yes_no("Is this {}? ".format(address)) == "yes" else False
                         if is_correct_address:
                             final_address = address
                             break
@@ -200,12 +210,28 @@ def find_counterparty(record, compare_string_length=16):
             "addresses": [final_address]
         }
         counterparties.append(counterparty_record)
+
+    category = {"name": category} if type(category) == str else category
+
+    # Now let's save the counterparties we'
+    save_counterparties(counterparties)
+
     return {
         "name": final_counterparty,
         "address": final_address,
-        "category": {"name": category}
+        "category": category
         }
 
+def load_counterparties():
+    with open("counterparties.json", "r") as f:
+	       counterparties = json.load(f)
+    return counterparties
+
+def save_counterparties(counterparties):
+    with open("counterparties.json", "w") as f:
+        f.seek(0)
+        f.truncate()
+        json.dump(counterparties)
 
 counterparties = [
     {
@@ -246,9 +272,3 @@ recurring = [
         "type": "MONTHLY"
     }
 ]
-
-suggestions = {
-    "Lbj": "LBJ",
-    "Fwy": "FWY",
-    "Branc": "Branch"
-}
