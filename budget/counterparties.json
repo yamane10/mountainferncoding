@@ -1,0 +1,60 @@
+[
+    {
+        "category": {
+            "name": "clothes",
+            "folder": "personal"
+        },
+        "name": "TJ Maxx",
+        "addresses": [
+            "7735 N MacArthur Blvd, Irving, TX 75063"
+        ],
+        "compare_string": "TJMAXX #0 7735 N"
+    },
+    {
+        "category": {
+            "name": "gas",
+            "folder": "transportation"
+        },
+        "name": "QuikTrip",
+        "addresses": [
+            "1600 LBJ FWY Farmers Branch, TX 75234"
+        ],
+        "compare_string": "QT 999 08009995 "
+    },
+    {
+        "category": {
+            "name": "bills"
+        },
+        "addresses": [
+            "AES Credit P.O. Box 61047 Harrisburg, PA 17106-1047"
+        ],
+        "use_default_address": true,
+        "default_address": "AES Credit P.O. Box 61047 Harrisburg, PA 17106-1047",
+        "name": "AES",
+        "compare_string": "AES TYPE: STDNT "
+    },
+    {
+        "category": {
+            "name": "investment"
+        },
+        "addresses": [
+            "27 W. 24th Street, 9th Floor, New York, NY 10010"
+        ],
+        "use_default_address": true,
+        "default_address": "27 W. 24th Street, 9th Floor, New York, NY 10010",
+        "name": "Stash",
+        "compare_string": "APEX RIA - STASH"
+    },
+    {
+        "category": {
+            "name": "bills"
+        },
+        "addresses": [
+            "Atmos Energy Corporation, PO Box 650205, Dallas, Texas 75265-0205"
+        ],
+        "use_default_address": true,
+        "default_address": "Atmos Energy Corporation, PO Box 650205, Dallas, Texas 75265-0205",
+        "name": "Atmos",
+        "compare_string": "at ATM BillMatri"
+    }
+]

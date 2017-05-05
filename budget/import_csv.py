@@ -1,9 +1,12 @@
 import re
+import csv
 
 from difflib import SequenceMatcher
 from cliutils import query_yes_no
 
-def build_records(csv_lines):
+
+
+def build_records(csv_lines, headers):
     """
     This function takes lines from the csv file and normalizes the data
     and returns it in a form we can more readily work with: JSON!!!
@@ -50,7 +53,7 @@ def build_records(csv_lines):
         record["date"] = record["source_data"]["date"]
         records.append(record)
 
-        return records
+    return records
 
 def similar(a, b):
         return SequenceMatcher(None, a.upper(), b.upper()).ratio()
@@ -128,6 +131,12 @@ def check_guess(guess, guess_type="Address"):
     return corrected
 
 def find_counterparty(record, compare_string_length=16):
+    # We want to make sure to reload the list of counterparties each time we run
+    # this function to make sure we're using the most updated list of counterparties.
+    # REVIEW: If we change this to an object, we should instead load once,
+    # save it as an instance-wide variable, then save at the end of processing
+    # the entire list of records to save on system calls.
+    counterparties = load_counterparties()
     compare_string = record["source_data"]["name_address_string"][:compare_string_length]
     final_address = None
     final_counterparty = None
@@ -145,33 +154,52 @@ def find_counterparty(record, compare_string_length=16):
             is_match = True if query_yes_no("Is this right? ") == "yes" else False
 
             if is_match:
+                category = counterparty["category"]
                 address_guess = guess_formatted(get_address(record))
                 final_counterparty = counterparty["name"]
-                for address in counterparty["addresses"]:
-                    similarity = similar(address_guess, address[:len(address_guess)])
-                    if similarity > .5:
-                        print("The address from the record is {}.".format(get_address(record)))
-                        is_correct_address = True if query_yes_no("Is this {}}? ".format(address)) == "yes" else False
-                        if is_correct_address:
-                            final_address = address
-                            break
+                try:
+                    use_default_address = counterparty["use_default_address"]
+                except:
+                    use_default_address = False
+
+                if address_guess is not None and not use_default_address:
+                        for address in counterparty["addresses"]:
+                            similarity = similar(address_guess, address[:len(address_guess)])
+                            if similarity > .5:
+                                print("The address from the record is {}.".format(get_address(record)))
+                                is_correct_address = True if query_yes_no("Is this {}? ".format(address)) == "yes" else False
+                                if is_correct_address:
+                                    final_address = address
+                                    break
+                if use_default_address:
+                    final_address = counterparty["default_address"]
                 if final_address is None:
-                    print("Address from the record: {}".format(address_guess))
-                    print("Couldn't seem to find this address in the list...")
-                    # Let's present the user with the options and ask them to pick an address.
-                    choices = [address for address in counterparty["addresses"]] + [address_guess]
-                    final_address = query_select(
-                        "Which of the following addresses would you like to use?",
-                        choices,
-                        default=choices[0],
-                        multi=False)
-                    if final_address == address_guess:
-                        final_address = check_guess(address_guess)
+                    if address_guess is None:
+                        print("Couldn't determine the address from the record.\n"
+                            "Name_address_string: {}".format(record["source_data"]["name_address_string"]))
+                        final_address = input("    >>> What's the address for this transaction? ")
+                    else:
+                        print("Address from the record: {}".format(address_guess))
+                        print("Couldn't seem to find this address in the list...")
+                        # Let's present the user with the options and ask them to pick an address.
+                        choices = [address for address in counterparty["addresses"]] + [address_guess]
+                        final_address = query_select(
+                            "Which of the following addresses would you like to use?",
+                            choices,
+                            default=choices[0],
+                            multi=False)
+                        if final_address == address_guess:
+                            final_address = check_guess(address_guess)
+                    # Now we should check if the user wants to use this address as the defau;t going forward.
+                    set_default = query_yes_no("    >>> Would you like to set this as the deault address? ")
+                    if set_default == "yes":
+                        counterparty["default_address"] = final_address
+                        counterparty["use_default_address"] = True
                     try:
                         category = counterparty["category"]["name"]
                     except:
                         category = input("There was an error getting the category.\n"
-                            "What's the category for this transaction? ")
+                            "    >>> What's the category for this transaction? ")
                 break
 
     if final_counterparty is None:
@@ -187,11 +215,14 @@ def find_counterparty(record, compare_string_length=16):
             final_counterparty = check_guess(counterparty_guess, guess_type="Counterparty")
         address_guess = guess_formatted(get_address(record))
         final_address = check_guess(address_guess)
+
+        set_default = "no"
         if final_address is None:
             print("Couldn't determine the address from the record.\n"
                 "Name_address_string: {}".format(record["source_data"]["name_address_string"]))
             final_address = input("    >>> What's the address for this transaction? ")
-        category = input("What's the category for this transaction? ")
+            set_default = query_yes_no("    >>> Would you like to set this as the deault address? ")
+        category = input("    >>> What's the category for this transaction? ")
         # Now let's add this counterparty to the growing list.
         counterparty_record = {
             "name": final_counterparty,
@@ -199,13 +230,34 @@ def find_counterparty(record, compare_string_length=16):
             "compare_string": compare_string,
             "addresses": [final_address]
         }
+        if set_default == "yes":
+            counterparty_record["default_address"] = final_address
+            counterparty_record["use_default_address"] = True
+        else:
+            counterparty_record["use_default_address"] = False
         counterparties.append(counterparty_record)
+
+    category = {"name": category} if type(category) == str else category
+
+    # Now let's save the counterparties we'
+    save_counterparties(counterparties)
+
     return {
         "name": final_counterparty,
         "address": final_address,
-        "category": {"name": category}
+        "category": category
         }
 
+def load_counterparties():
+    with open("counterparties.json", "r") as f:
+	       counterparties = json.load(f)
+    return counterparties
+
+def save_counterparties(counterparties):
+    with open("counterparties.json", "w") as f:
+        f.seek(0)
+        f.truncate()
+        json.dump(counterparties, f, indent="    ")
 
 counterparties = [
     {
@@ -246,9 +298,3 @@ recurring = [
         "type": "MONTHLY"
     }
 ]
-
-suggestions = {
-    "Lbj": "LBJ",
-    "Fwy": "FWY",
-    "Branc": "Branch"
-}
