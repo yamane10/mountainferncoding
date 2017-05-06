@@ -1,60 +1,599 @@
 [
     {
         "category": {
-            "name": "clothes",
-            "folder": "personal"
+            "folder": "personal",
+            "name": "clothes"
         },
-        "name": "TJ Maxx",
         "addresses": [
             "7735 N MacArthur Blvd, Irving, TX 75063"
         ],
+        "name": "TJ Maxx",
         "compare_string": "TJMAXX #0 7735 N"
     },
     {
         "category": {
-            "name": "gas",
-            "folder": "transportation"
+            "folder": "transportation",
+            "name": "gas"
         },
-        "name": "QuikTrip",
         "addresses": [
-            "1600 LBJ FWY Farmers Branch, TX 75234"
+            "1600 LBJ FWY Farmers Branch, TX 75234",
+            "3300 E University Dr, Denton, TX 76208",
+            "2451 E Sublett Rd, Arlington, TX 76018"
         ],
+        "name": "QuikTrip",
         "compare_string": "QT 999 08009995 "
     },
     {
+        "use_default_address": true,
         "category": {
             "name": "bills"
         },
+        "default_address": "AES Credit P.O. Box 61047 Harrisburg, PA 17106-1047",
+        "compare_string": "AES TYPE: STDNT ",
         "addresses": [
             "AES Credit P.O. Box 61047 Harrisburg, PA 17106-1047"
         ],
-        "use_default_address": true,
-        "default_address": "AES Credit P.O. Box 61047 Harrisburg, PA 17106-1047",
-        "name": "AES",
-        "compare_string": "AES TYPE: STDNT "
+        "name": "AES"
     },
     {
+        "use_default_address": true,
         "category": {
             "name": "investment"
         },
+        "default_address": "27 W. 24th Street, 9th Floor, New York, NY 10010",
+        "compare_string": "APEX RIA - STASH",
         "addresses": [
             "27 W. 24th Street, 9th Floor, New York, NY 10010"
         ],
+        "name": "Stash"
+    },
+    {
         "use_default_address": true,
-        "default_address": "27 W. 24th Street, 9th Floor, New York, NY 10010",
-        "name": "Stash",
-        "compare_string": "APEX RIA - STASH"
+        "category": {
+            "name": "bills"
+        },
+        "default_address": "Atmos Energy Corporation, PO Box 650205, Dallas, Texas 75265-0205",
+        "compare_string": "at ATM BillMatri",
+        "addresses": [
+            "Atmos Energy Corporation, PO Box 650205, Dallas, Texas 75265-0205"
+        ],
+        "name": "Atmos"
+    },
+    {
+        "use_default_address": true,
+        "category": {
+            "name": "external account transfer"
+        },
+        "default_address": "1600 Amphitheatre Parkway Mountain View, CA 94043",
+        "compare_string": "GOOGLE TYPE: WAL",
+        "addresses": [
+            "1600 Amphitheatre Parkway Mountain View, CA 94043"
+        ],
+        "name": "Google Wallet"
+    },
+    {
+        "use_default_address": true,
+        "category": {
+            "name": "external account transfer"
+        },
+        "default_address": "2211 North First Street San Jose, California 95131",
+        "compare_string": "PAYPAL TYPE: TRA",
+        "addresses": [
+            "2211 North First Street San Jose, California 95131"
+        ],
+        "name": "Paypal"
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "Denton, TX",
+            "Dallas, TX"
+        ],
+        "name": "7-Eleven",
+        "compare_string": "7-ELEVEN DENTON "
+    },
+    {
+        "category": {
+            "name": "health"
+        },
+        "addresses": [
+            "809 N Locust St, Denton, TX 76201"
+        ],
+        "use_default_address": false,
+        "name": "Dr. Moussa",
+        "compare_string": "Withdrawal Adjus"
+    },
+    {
+        "category": {
+            "name": "cash withdrawal"
+        },
+        "addresses": [
+            "2500 Royal LN Dallas, TX",
+            "4901 Maple Ave Dallas, TX",
+            "116 Universtiy Dr Denton, TX",
+            "2608 Elm St Dallas, TX"
+        ],
+        "use_default_address": false,
+        "name": "ATM",
+        "compare_string": "at ATM Cardtroni"
+    },
+    {
+        "category": {
+            "name": "cash withdrawal"
+        },
+        "addresses": [
+            "12103 Webb Chapel Farmers Branch, TX"
+        ],
+        "use_default_address": false,
+        "name": "ATM",
+        "compare_string": "at ATM CT 7-11 C"
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "4700 Nome Denver, CO",
+            "36 East Bijou, Colorado Springs, CO 80903"
+        ],
+        "use_default_address": false,
+        "name": "ATM",
+        "compare_string": "at ATM MM Denver"
+    },
+    {
+        "use_default_address": true,
+        "category": {
+            "name": "eating out"
+        },
+        "default_address": "36 East Bijou, Colorado Springs, CO 80903",
+        "compare_string": "BAMBINO'S COLORA",
+        "addresses": [
+            "36 East Bijou, Colorado Springs, CO 80903"
+        ],
+        "name": "Bambino's"
+    },
+    {
+        "category": {
+            "name": "health"
+        },
+        "default_address": "116 University Dr., Denton, TX,76201",
+        "name": "CVS",
+        "compare_string": "CVS/PHARM 10271-",
+        "addresses": [
+            " 1510 Denton, T",
+            "116 University Dr., Denton, TX,76201"
+        ],
+        "use_default_address": true
+    },
+    {
+        "category": {
+            "name": "going out"
+        },
+        "addresses": [
+            "331 E Hickory St Denton, TX"
+        ],
+        "use_default_address": false,
+        "name": "Harvest House",
+        "compare_string": "HARVEST HOUSE 33"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "1205 E University Dr Denton, TX 76209"
+        ],
+        "use_default_address": false,
+        "name": "Horizon Food Mart",
+        "compare_string": "HORIZON FOOD MAR"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "820 S Macarthur Blvd Coppell"
+        ],
+        "use_default_address": false,
+        "name": "Kumars Irving",
+        "compare_string": "KUMARS IRVING 82"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "7260 N Stemmons Fwy, Dallas, TX 75247",
+            "328 W University Dr, Denton, TX 76201"
+        ],
+        "use_default_address": false,
+        "name": "Jack In The Box",
+        "compare_string": "JACK IN THE BOX "
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "1205 E University Denton, TX",
+            "1010 W Trinity Mills Rd, Carrollton, TX 75006"
+        ],
+        "use_default_address": false,
+        "name": "Chevron",
+        "compare_string": "CHEVRON 0106294 "
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "2441 Stockbridge Rd",
+            "45 W 18th Street, New York, NY 10011"
+        ],
+        "use_default_address": false,
+        "name": "Sisters And Me Catering",
+        "compare_string": "SISTERS AND ME C"
+    },
+    {
+        "category": {
+            "name": "bills"
+        },
+        "default_address": "45 W 18th Street, New York, NY 10011",
+        "name": "Spotify USA",
+        "compare_string": "Spotify USA 45 W",
+        "addresses": [
+            "45 W 18th Street, New York, NY 10011"
+        ],
+        "use_default_address": true
+    },
+    {
+        "category": {
+            "name": "going out"
+        },
+        "addresses": [
+            "3923 Cedar Springs Rd Dallas, TX"
+        ],
+        "use_default_address": false,
+        "name": "JR's Bar And Grill",
+        "compare_string": "JRS BAR AND GRIL"
+    },
+    {
+        "category": {
+            "name": "going out"
+        },
+        "addresses": [
+            "308 East Oak St Denton, TX"
+        ],
+        "use_default_address": false,
+        "name": "Oakstreet Drafthouse",
+        "compare_string": "OAKSTREET DRAFTH"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "750 Lyndon B Johnson Fwy, Irving, TX 75063",
+            "434 W Garden of the Gods Rd, Colorado Springs, CO 80907",
+            "Terminal Gate 22 6 DFW"
+        ],
+        "use_default_address": false,
+        "name": "Mcdonald's",
+        "compare_string": "MCDONALD'S M2896"
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "default_address": "1605 Lyndon B Johnson Freeway, Farmers Branch, TX, 75234",
+        "name": "Work Vending Machine",
+        "compare_string": "USA*USA*SNACK SO",
+        "addresses": [
+            "1605 Lyndon B Johnson Freeway, Farmers Branch, TX, 75234"
+        ],
+        "use_default_address": true
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "2502 Royal Ln, Dallas, TX 75229"
+        ],
+        "use_default_address": false,
+        "name": "Seoul Garden",
+        "compare_string": "SEOUL GARDEN 250"
+    },
+    {
+        "category": {
+            "name": "going out"
+        },
+        "addresses": [
+            "1211 W Hickory Denton, TX 76201"
+        ],
+        "use_default_address": false,
+        "name": "Riprocks",
+        "compare_string": "RIPROCKS 1211 W "
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "709 W Spring Creek Pkwy, Plano, TX 75023"
+        ],
+        "use_default_address": false,
+        "name": "Wendy's",
+        "compare_string": "WENDY'S #2041 70"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "301 E Las Colinas Blvd, Irving, TX 75039"
+        ],
+        "use_default_address": false,
+        "name": "Jinbeh Inc.",
+        "compare_string": "JINBEH INC. 301 "
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "1605 Lyndon B Johnson Fwy, Farmers Branch, TX 75234"
+        ],
+        "use_default_address": false,
+        "name": "Work Cafeteria",
+        "compare_string": "SQU*SQ *DEWEY FE"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "2625 Old Denton Rd #92, Carrollton, TX 75007"
+        ],
+        "use_default_address": false,
+        "name": "Sake 2 Me Sushi",
+        "compare_string": "SAKE 2 ME SUSHI "
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "2625 Old Denton Rd #22, Carrollton, TX 75007"
+        ],
+        "use_default_address": false,
+        "name": "Escape",
+        "compare_string": "ESCAPE 2625 OLD "
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "1945 N Interstate 35E, Carrollton, TX 75006"
+        ],
+        "use_default_address": false,
+        "name": "Starbucks Store",
+        "compare_string": "STARBUCKS STORE "
+    },
+    {
+        "category": {
+            "name": "health"
+        },
+        "addresses": [
+            "920 N Locust St, Denton, TX"
+        ],
+        "use_default_address": false,
+        "name": "Dr. Moussa",
+        "compare_string": "PSYCHIATRY AND A"
     },
     {
         "category": {
             "name": "bills"
         },
         "addresses": [
-            "Atmos Energy Corporation, PO Box 650205, Dallas, Texas 75265-0205"
+            "601 E Hickory St, Denton, TX 76205"
         ],
+        "use_default_address": false,
+        "name": "Denton Utilities",
+        "compare_string": "CITY OF DENTON U"
+    },
+    {
+        "category": {
+            "name": "groceries"
+        },
+        "addresses": [
+            "2625 Old Denton Rd, Carrollton, TX 75007"
+        ],
+        "use_default_address": false,
+        "name": "H Mart Carrolton",
+        "compare_string": "H MART CARROLTON"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "825 W Royal Ln, Irving, TX 75039"
+        ],
+        "use_default_address": false,
+        "name": "Dimassis Mediterranean",
+        "compare_string": "DIMASSIS MEDITER"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "710 Harrison Ave, Leadville, CO 80461"
+        ],
+        "use_default_address": false,
+        "name": "The Golden Burro Cafe",
+        "compare_string": "THE GOLDEN BURRO"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "2131 E University Dr, Denton, TX 76209"
+        ],
+        "use_default_address": false,
+        "name": "Sonic Drive In",
+        "compare_string": "SONIC DRIVE IN #"
+    },
+    {
+        "category": {
+            "name": "vacation"
+        },
+        "addresses": [
+            "330 Royal Gorge Blvd, Ca\u00f1on City, CO 81212"
+        ],
+        "use_default_address": false,
+        "name": "CC & Royal Gorge Railroad",
+        "compare_string": "CC & ROYAL GORGE"
+    },
+    {
+        "category": {
+            "name": "vacation"
+        },
+        "addresses": [
+            " 15870 Co Rd 162, Nathrop, CO 81236"
+        ],
+        "use_default_address": false,
+        "name": "Mt Princeton Hot Springs Resort",
+        "compare_string": "MT PRINCETON HOT"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "1201 E Colfax Ave, St, Denver, CO 80218"
+        ],
+        "use_default_address": false,
+        "name": "The Irish Snug",
+        "compare_string": "THE IRISH SNUG 1"
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "110 3rd Avenue Frisco, CO 80443"
+        ],
+        "use_default_address": false,
+        "name": "Frisco Fun & Formal Wear",
+        "compare_string": "SQ *FRISCO FUN A"
+    },
+    {
+        "category": {
+            "name": "vacation"
+        },
+        "addresses": [
+            "4000 E Sky Harbor Blvd Dallas, TX"
+        ],
+        "use_default_address": false,
+        "name": "American Airlines",
+        "compare_string": "AMERICAN 4000 E "
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "201 Main St, Frisco, CO 80443"
+        ],
+        "use_default_address": false,
+        "name": "Loaf N Jug",
+        "compare_string": "LOAF N JUG #0048"
+    },
+    {
+        "category": {
+            "name": "eating out"
+        },
+        "addresses": [
+            "100 Street Side Dallas, TX",
+            "Freshens #24 Terminal C Gate 6 Dallas, TX"
+        ],
+        "use_default_address": false,
+        "name": "Whataburger ",
+        "compare_string": "WHATABURGER C100"
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "Freshens #24 Terminal C Gate 6 Dallas, TX",
+            "100 Cave of the Winds Rd, Manitou Springs, CO 80829"
+        ],
+        "use_default_address": false,
+        "name": "Freshens",
+        "compare_string": "FRESHENS #24 TER"
+    },
+    {
         "use_default_address": true,
-        "default_address": "Atmos Energy Corporation, PO Box 650205, Dallas, Texas 75265-0205",
-        "name": "Atmos",
-        "compare_string": "at ATM BillMatri"
+        "category": {
+            "name": "vacation"
+        },
+        "default_address": "100 Cave of the Winds Rd, Manitou Springs, CO 80829",
+        "compare_string": "CAVE OF THE WIND",
+        "addresses": [
+            "100 Cave of the Winds Rd, Manitou Springs, CO 80829"
+        ],
+        "name": "Cave of the Winds"
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "1111 S Colorado Blvd, Denver, CO 80246"
+        ],
+        "use_default_address": false,
+        "name": "Walgreens",
+        "compare_string": "WALGREENS #3190 "
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "707 S 8th St, Colorado Springs, CO 80905",
+            "707 S 8th St, Colorado Springs, CO 80905"
+        ],
+        "use_default_address": false,
+        "name": "Walmart",
+        "compare_string": "WAL Wal-Mart Sup"
+    },
+    {
+        "category": {
+            "name": "extra"
+        },
+        "addresses": [
+            "707 S 8th St, Colorado Springs, CO 80905"
+        ],
+        "use_default_address": false,
+        "name": "Walmart",
+        "compare_string": "WM SUPERCENTER #"
+    },
+    {
+        "use_default_address": false,
+        "category": {
+            "name": "vacation"
+        },
+        "addresses": [
+            "330 Royal Gorge Blvd, Ca\\u00f1on City, CO 81212"
+        ],
+        "name": "Canon City & Royal Gorge Railroad",
+        "compare_string": "CANON CITY & ROY"
     }
 ]
